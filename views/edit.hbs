@@ -1,0 +1,6 @@
+<form action="/todos/{{todo.id}}?_method=PUT" method="POST">
+    <input type="text" placeholder="please input name" name="name" value="{{todo.name}}">
+     <input type="text" placeholder="please input content" name="content" value="{{todo.content}}">
+    <button type="submit">Save</button>
+    <a href="/todos">back</a>
+</form>
