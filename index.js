@@ -2,10 +2,16 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-const db = require('./models')
-const Todo = db.Todoback
+const db = require("./models");
+const Todo = db.Todoback;
 
-app.get("/", (req, res) => res.send("Hello word"));
+const { engine } = require("express-handlebars");
+
+app.engine(".hbs", engine({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+app.set("views", "./views");
+
+app.get("/", (req, res) => res.render('index'));
 
 app.get("/todos", (req, res) => {
   return Todo.findAll()

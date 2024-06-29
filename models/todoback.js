@@ -13,11 +13,15 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Todoback.init({
-    name: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Todoback',
-  });
+  Todoback.init(
+    {
+      name: DataTypes.STRING,
+      content: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "Todoback",
+    }
+  );
   return Todoback;
 };
