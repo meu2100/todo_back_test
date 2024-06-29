@@ -16,7 +16,7 @@ app.get("/", (req, res) => res.render("index"));
 
 app.get("/todos", (req, res) => {
   return Todo.findAll({
-    attributes: ["id", "name", "content"],
+    attributes: ["id", "name"],
     raw: true,
   })
     .then((todos) => res.render("todos", { todos }))
@@ -32,11 +32,18 @@ app.post("/todos", (req, res) => {
   const content = req.body.content;
   return Todo.create({ name, content })
     .then(() => res.redirect("/todos"))
-    .catch((err) => console.groupCollapsed(err));
+    .catch((err) => console.log(err));
 });
 
 app.get("/todos/:id", (req, res) => {
-  res.send(`get todo: ${req.params.id}`);
+  const id = req.params.id;
+
+  return Todo.findByPk(id, {
+    attributes: ["id", "name", "content"],
+    raw: true,
+  })
+    .then((todo) => res.render("todo", { todo }))
+    .catch((err) => console.log(err));
 });
 
 app.get("/todos/:id/edit", (req, res) => {
