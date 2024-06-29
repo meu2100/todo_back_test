@@ -6,7 +6,7 @@ const Todo = db.Todoback;
 
 router.get("/", (req, res) => {
   return Todo.findAll({
-    attributes: ["id", "name"],
+    attributes: ["id", "name", "isComplete"],
     raw: true,
   })
     .then((todos) => res.render("todos", { todos }))
@@ -29,7 +29,7 @@ router.get("/:id", (req, res) => {
   const id = req.params.id;
 
   return Todo.findByPk(id, {
-    attributes: ["id", "name", "content"],
+    attributes: ["id", "name", "content", "isComplete"],
     raw: true,
   })
     .then((todo) => res.render("todo", { todo }))
@@ -39,18 +39,15 @@ router.get("/:id", (req, res) => {
 router.get("/:id/edit", (req, res) => {
   const id = req.params.id;
   return Todo.findByPk(id, {
-    attributes: ["id", "name", "content"],
+    attributes: ["id", "name", "content", "isComplete"],
     raw: true,
   }).then((todo) => res.render("edit", { todo }));
 });
 
 router.put("/:id", (req, res) => {
-  const body = req.body;
+  const { name, content, isComplete} = req.body;
   const id = req.params.id;
-  return Todo.update(
-    { name: body.name, content: body.content },
-    { where: { id } }
-  ).then(() => res.redirect(`/todos/${id}`));
+  return Todo.update({ name, content, isComplete: isComplete === 'completed' }, { where: { id }}).then(() => res.redirect(`/todos/${id}`));
 });
 
 router.delete("/:id", (req, res) => {
