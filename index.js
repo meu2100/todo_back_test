@@ -10,6 +10,7 @@ const { engine } = require("express-handlebars");
 app.engine(".hbs", engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", "./views");
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => res.render("index"));
 
@@ -18,16 +19,20 @@ app.get("/todos", (req, res) => {
     attributes: ["id", "name", "content"],
     raw: true,
   })
-    .then((todos) => res.render('todos', { todos }))
+    .then((todos) => res.render("todos", { todos }))
     .catch((err) => res.status(422).json(err));
 });
 
 app.get("/todos/new", (req, res) => {
-  res.send("create todo");
+  return res.render("new");
 });
 
 app.post("/todos", (req, res) => {
-  res.send("add todo");
+  const name = req.body.name;
+  const content = req.body.content;
+  return Todo.create({ name, content })
+    .then(() => res.redirect("/todos"))
+    .catch((err) => console.groupCollapsed(err));
 });
 
 app.get("/todos/:id", (req, res) => {
