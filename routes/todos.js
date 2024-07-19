@@ -13,6 +13,7 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(422).json(err));
 });
 
+//渲染和取得資料的coding分開
 router.get("/new", (req, res) => {
   return res.render("new");
 });
@@ -25,6 +26,7 @@ router.post("/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+//在路由檢察參數(包含:所需參數是否存在or存在在合理範圍)
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
