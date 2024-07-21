@@ -4,6 +4,19 @@ const db = require("../models");
 const Todo = db.Todoback;
 
 class TodoService {
+  async findAllTodo() {
+    try {
+      const todos = await Todo.findAll({
+        attributes: ["id", "name", "isComplete"],
+        raw: true,
+      });
+      return todos;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
   async createTodo(data) {
     const { name, content } = data;
     try {
@@ -42,15 +55,15 @@ class TodoService {
     }
   }
 
-      async deleteTodo(id) {
-        try{
-          const result = await Todo.destroy({ where: { id } })
-          return result
-        } catch (err) {
-          console.log(err);
-          throw err;
-        }
-      }
+  async deleteTodo(id) {
+    try {
+      const result = await Todo.destroy({ where: { id } });
+      return result;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
 }
 
 module.exports = new TodoService();
