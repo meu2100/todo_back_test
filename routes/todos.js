@@ -25,9 +25,9 @@ class Todorender {
   }
 
   async createTodo(req, res) {
-    const { name, content } = req.body;
+    const { name, content, userId } = req.body;
     try {
-      await todoService.createTodo({ name, content });
+      await todoService.createTodo({ name, content, userId });
       res.redirect("/todos");
     } catch (err) {
       res.send("Error, Please check!!");
