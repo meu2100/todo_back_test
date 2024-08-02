@@ -6,6 +6,7 @@
     "Todobacks",
     "Todorender",
     "todos",
-    "todoservice"
+    "todoservice",
+    "userservice"
   ]
 }
